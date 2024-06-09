@@ -1,0 +1,76 @@
+---
+title: "Grinding Robot Performance (days)"
+author: "Natnalin Kerdkaew"
+date: '`r Sys.Date()`'
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(ggplot2)
+library(tidyverse)
+```
+
+### **Assume Data**
+
+```{r}
+# Create Lists
+days_before <- c(1:5)
+work_before <- c(10, 11, 13, 10, 12)
+days_after <- c(1:5)
+work_after <- c(12, 13, 15, 12, 15)
+
+# Create Data Frame
+work_data <- data.frame(
+  days_before = days_before,
+  work_before = work_before,
+  days_after = days_after,
+  work_after = work_after
+)
+
+work_data <- data.frame(
+  days = c(days_after, days_before),
+  work = c(work_after, work_before),
+  period = rep(c("After", "Before"), each = 5)
+)
+
+```
+
+### **Create Graph**
+
+```{r}
+# Create Graph
+work_data_graph2 <- ggplot(work_data, aes(x = factor(days), y = work, fill = period)) +
+  geom_bar(stat = "identity", position = "dodge") +
+  labs(title = "Comparison of Work Before and After",
+       x = "Days",
+       y = "Works",
+       fill = "Period") +
+  theme_minimal()
+print(work_data_graph2)
+
+```
+
+### **Total Percent of Change**
+
+```{r}
+# Calculate the total work before and after
+total_work_before <- sum(work_before)
+total_work_after <- sum(work_after)
+
+# Calculate the percent change
+total_percent_change <- ((total_work_after - total_work_before) / total_work_before) * 100
+total_percent_change
+
+```
+
+
+
+
+
+
+
+
+
+
+
